@@ -1,0 +1,4 @@
+fastapi[standard]==0.162.0
+pydantic-settings==2.16.2
+openai==3.42.0
+pytest==9.2.0
