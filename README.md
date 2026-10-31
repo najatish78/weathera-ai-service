@@ -6,7 +6,7 @@ The mobile app calls it; the LLM key never ships inside the app.
 ## Run locally
 
 ```bash
-cd ai_service
+cd weathera-ai-service
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt

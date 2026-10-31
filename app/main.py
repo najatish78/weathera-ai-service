@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
-from app.api import health
+from app.features.health.presentation import routes as health
+from app.features.outfit.presentation import routes as outfit
 
 app = FastAPI(
     title="Weathera AI Service",
@@ -9,3 +10,4 @@ app = FastAPI(
 )
 
 app.include_router(health.router)
+app.include_router(outfit.router)

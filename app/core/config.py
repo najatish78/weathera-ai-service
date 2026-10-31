@@ -8,9 +8,9 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    llm_base_url: str = "https://api.groq.com/openai/v1"
+    llm_base_url: str = "https://generativelanguage.googleapis.com/v1beta/openai/"
     llm_api_key: str = ""
-    llm_model: str = ""
+    llm_model: str = "gemini-2.5-flash"
 
     app_api_key: str = ""
 
