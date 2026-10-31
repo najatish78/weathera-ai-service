@@ -30,15 +30,17 @@ from app.features.outfit.domain.usecase.suggest_outfit_usecase import (
 
 
 @lru_cache
-def _llm_client(base_url: str, api_key: str) -> AsyncOpenAI:
+def _llm_client(base_url: str, api_key: str, timeout: float) -> AsyncOpenAI:
     # One client (and its connection pool) per process, like a @singleton.
-    return AsyncOpenAI(base_url=base_url, api_key=api_key)
+    return AsyncOpenAI(base_url=base_url, api_key=api_key, timeout=timeout, max_retries=0)
 
 
 def get_outfit_remote_datasource(
     settings: Annotated[Settings, Depends(get_settings)],
 ) -> OutfitRemoteDataSource:
-    client = _llm_client(settings.llm_base_url, settings.llm_api_key)
+    client = _llm_client(
+        settings.llm_base_url, settings.llm_api_key, settings.llm_timeout_seconds
+    )
     return OutfitRemoteDataSourceImpl(client, settings.llm_model)
 
 
