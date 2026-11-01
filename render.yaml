@@ -1,0 +1,18 @@
+# Render Blueprint: Dashboard → New → Blueprint → pick this repo.
+services:
+  - type: web
+    name: weathera-ai-service
+    runtime: python
+    plan: free
+    region: frankfurt
+    buildCommand: pip install -r requirements.txt
+    startCommand: fastapi run app/main.py --port $PORT
+    # Render only switches to a new deploy once this answers 200.
+    healthCheckPath: /health
+    envVars:
+      # Pasted in the dashboard on first deploy; never committed.
+      - key: LLM_API_KEY
+        sync: false
+      # Render generates a fresh random key; copy it into the app's env.json.
+      - key: APP_API_KEY
+        generateValue: true
