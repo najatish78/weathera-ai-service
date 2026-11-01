@@ -59,7 +59,9 @@ class FakeRemote(OutfitRemoteDataSource):
 
 @pytest.fixture
 def client():
-    app.dependency_overrides[get_settings] = lambda: Settings(app_api_key=API_KEY)
+    # _env_file=None: tests must not depend on the developer's local .env.
+    settings = Settings(_env_file=None, app_api_key=API_KEY, llm_api_key="unused")
+    app.dependency_overrides[get_settings] = lambda: settings
     yield TestClient(app)
     app.dependency_overrides.clear()
 
