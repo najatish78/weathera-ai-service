@@ -12,6 +12,9 @@ from app.features.outfit.domain.params.outfit_params import OutfitParams
 
 _LANGUAGE = {"ar": "Arabic", "en": "English"}
 
+# A full answer is ~200 tokens; this caps the bill if the model rambles.
+_MAX_TOKENS = 500
+
 _SYSTEM_PROMPT = """You are a practical stylist inside a weather app.
 Given the weather and the user's profile, decide what they should wear.
 Pick concrete items that fit the weather, the user's gender, style and cold
@@ -43,5 +46,6 @@ class OutfitRemoteDataSourceImpl(OutfitRemoteDataSource):
             ],
             response_format={"type": "json_object"},
             temperature=0.4,
+            max_tokens=_MAX_TOKENS,
         )
         return OutfitModel.model_validate_json(completion.choices[0].message.content or "")
