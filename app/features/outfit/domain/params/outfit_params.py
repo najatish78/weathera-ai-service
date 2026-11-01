@@ -1,12 +1,14 @@
-"""What the app sends to /suggest-outfit.
-
-First draft: the exact fields are still open and will be refined with the
-Flutter side.
-"""
+"""What the app sends to /suggest-outfit (the request side of the API contract)."""
 
 from typing import Literal
 
 from pydantic import BaseModel, Field
+
+# OpenWeather's `weather[0].main` values, sent by the app as-is.
+WeatherCondition = Literal[
+    "Clear", "Clouds", "Rain", "Drizzle", "Thunderstorm", "Snow",
+    "Mist", "Smoke", "Haze", "Dust", "Fog", "Sand", "Ash", "Squall", "Tornado",
+]
 
 
 class WeatherSummary(BaseModel):
@@ -15,9 +17,10 @@ class WeatherSummary(BaseModel):
     temp_min: float = Field(description="°C")
     temp_max: float = Field(description="°C")
     feels_like: float = Field(description="°C")
-    rain_chance: int = Field(ge=0, le=100, description="Percent")
+    # OpenWeather's `pop` is 0..1; the app sends it as a whole percent (0.8 -> 80).
+    rain_chance: int = Field(ge=0, le=100, description="Percent, 0-100")
     wind_speed: float = Field(ge=0, description="m/s")
-    condition: str = Field(description="OpenWeather main condition, e.g. Rain, Clear")
+    condition: WeatherCondition
 
 
 class UserProfile(BaseModel):

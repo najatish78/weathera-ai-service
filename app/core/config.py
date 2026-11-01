@@ -12,7 +12,8 @@ class Settings(BaseSettings):
     llm_api_key: str = ""
     llm_model: str = "gemini-flash-lite-latest"
     # Past this the app gets the rule-based fallback instead of waiting.
-    llm_timeout_seconds: float = 20
+    # Keep it below the app's own timeout (15s) so the fallback arrives in time.
+    llm_timeout_seconds: float = 8
 
     app_api_key: str = ""
 

@@ -61,6 +61,6 @@ class OutfitLocalDataSource:
             shoes=shoes,
             jacket=text["jacket"] if feels < 10 else None,
             umbrella=rainy,
-            sunscreen=weather.condition.lower() == "clear" and weather.temp_max >= 20,
+            sunscreen=weather.condition == "Clear" and weather.temp_max >= 20,
             reason=text["reason"],
         )
